@@ -8,7 +8,7 @@
 </head>
 <body>
     <h2>Data Mahasiswa</h2>
-    <a href="reg_mhswa.html"><button>Tambah Data</button></a>
+    <a href="reg_mhs.php"><button>Tambah Data</button></a>
     <table width="100%" border="1">
         <tr>
             <td>NO</td>
@@ -22,27 +22,31 @@
             <td>AKSI</td>
         </tr>
         <?php
-        $strserver="mysql:host=localhost;dbname=data_mahasiswa";
-        $conn=new PDO($strserver,"root","");
-        $conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            include("koneksi.php");
 
-        $strsql="SELECT nim,nama,alamat,tgllahir,telp,email,jkel FROM mhs ORDER BY nim";
-        $rsmhs=$conn->query($strsql);
-        while($kolom=$rsmhs->fetch())
-        {
-    ?>
-    <tr>
-        <td>NO</td>
-        <td><?php echo $kolom['nim'] ; ?></td>    
-        <td><?php echo $kolom['nama'] ; ?></td>
-        <td><?php echo $kolom['alamat'] ; ?></td>
-        <td><?php echo $kolom['tgllahir'] ; ?></td>
-        <td><?php echo $kolom['telp'] ; ?></td>
-        <td><?php echo $kolom['email'] ; ?></td>
-        <td><?php echo $kolom['jkel'] ; ?></td>
-        <td>Edit Del</td>
-    </tr>
-    <?php } ?>
+            $strsql="SELECT nim,nama,alamat,tgllahir,telp,email,jkel FROM mhs ORDER BY nim";
+            $rsmhs=$conn->query($strsql);
+            $no=0;
+            while($kolom=$rsmhs->fetch())
+            {
+                $no++
+            
+        ?>
+        <tr>
+            <td><?=$no;?></td>
+            <td><?=$kolom['nim'] ; ?></td>    
+            <td><?=$kolom['nama'] ; ?></td>
+            <td><?=$kolom['alamat'] ; ?></td>
+            <td><?=$kolom['tgllahir'] ; ?></td>
+            <td><?=$kolom['telp'] ; ?></td>
+            <td><?=$kolom['email'] ; ?></td>
+            <td><?=$kolom['jkel'] ; ?></td>
+            <td>
+                <a href="reg_mhs.php?crNIM=<?=$kolom['nim'] ;?>">Edit</a>                        
+                <a href="del_mhs.php?crNIM=<?=$kolom['nim'] ;?>">Del</a>                
+            </td>
+        </tr>
+        <?php } ?>
     </table>
 </body>
 </html>
